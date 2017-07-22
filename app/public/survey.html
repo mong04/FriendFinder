@@ -199,15 +199,16 @@
                 let currentURL = window.location.origin;
 
                 // POST data to API
-                $.post(currentURL + '/api/friends', userData, function(data){
+                $.post(currentURL + "/api/friends", userData, function(data){
                     
-                    // Get result from API
-                    $('#matchName').text(data.name);
-                    $('#matchImg').attr('src', data.photo);
-
-                    // Show Modal
-                    $('resultsModal').modal('toggle');
-                });
+                                    // Grab the result from the AJAX post so that the best match's name and photo are displayed.
+                                    $("#matchName").text(data.name);
+                                    $('#matchImg').attr("src", data.photo);
+                    
+                                    // Show the modal with the best match 
+                                    $("#resultModal").modal('toggle');
+                    
+                                });
             }
             else {
                 alert("Please fill out all the fields before submitting!");
