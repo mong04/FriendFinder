@@ -17,9 +17,9 @@
         <hr>
         <h3><strong>About You</strong></h3>
         <h4>Name (Required)</h4>
-        <input type="text" class="form-control" id="name">
+        <input type="text" class="form-control" id="name" required>
         <h4>Link To Picture (Required)</h4>
-        <input type="text" class="form-control" id="picture">
+        <input type="text" class="form-control" id="picture" required>
         <hr>
         <h3><strong>Question 1</strong></h3>
         <h4>I see myself as extraverted, enthusiastic.</h4>
@@ -148,6 +148,74 @@
             </div>
         </footer>
     </div>
+
+    <!-- Modal -->
+    <div id="resultModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modall"></button>
+                    <h2 class="modal-title">
+                        <strong>Best Match</strong>
+                    </h2>
+                </div>
+                <div class="modal-body">
+                    <h2 id="matchName"></h2>
+                    <img src="" alt="" id="matchImg">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script type="text/javascript">
+        $('#submit').on('click', function(){
+
+            // Validate Form
+            formValidate = () => {
+                let isValid = true;
+                $('.form-control').each(function() {
+                    if ( $(this).val() === '' )
+                        isValid = false;
+                })
+                return isValid;
+            }
+
+            // If everything filled out
+            if (formValidate() == true) {
+                let userData = {
+                    name: $('#name').val(),
+                    photo: $('#picture').val(),
+                    scores: [$("#q1").val(), $("#q2").val(), $("#q3").val(), $("#q4").val(), 
+                    $("#q5").val(), $("#q6").val(), $("#q7").val(), $("#q8").val(), $("#q9").val(), 
+                    $("#q10").val()]
+                }
+            
+
+                // Grab URL
+                let currentURL = window.location.origin;
+
+                // POST data to API
+                $.post(currentURL + '/api/friends', userData, function(data){
+                    
+                    // Get result from API
+                    $('#matchName').text(data.name);
+                    $('#matchImg').attr('src', data.photo);
+
+                    // Show Modal
+                    $('resultsModal').modal('toggle');
+                });
+            }
+            else {
+                alert("Please fill out all the fields before submitting!");
+            }
+            return false;
+        
+        })
+    </script>
     
 </body>
 </html>
