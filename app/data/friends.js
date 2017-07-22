@@ -1,3 +1,4 @@
+// Declare and create friends array
 
 var friends = [
 {
